@@ -21,6 +21,39 @@ class Channel:
         # подтягиваем функцией значения, через API
         self.set_initialization()
 
+    def __str__(self):
+        """Возвращает название и ссылку на канал по шаблону <название_канала> (<ссылка_на_канал>)"""
+        # 'MoscowPython (https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A)'
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        """Сложить количество подписчиков двух каналов"""
+        return self.subscriber_count + other.subscriber_count
+
+    def __sub__(self, other):
+        """Вычесть количество подписчиков второго канала из количества от первого"""
+        return self.subscriber_count - other.subscriber_count
+
+    def __ge__(self, other):
+        """Сравнить больше ли количество подписчиков первого канала чем у второго"""
+        return self.subscriber_count > other.subscriber_count
+
+    def __gt__(self, other):
+        """Сравнить больше или равно ли количество подписчиков первого канала чем у второго"""
+        return self.subscriber_count >= other.subscriber_count
+
+    def __lt__(self, other):
+        """Сравнить меньше или равно ли количество подписчиков первого канала чем у второго"""
+        return self.subscriber_count <= other.subscriber_count
+
+    def __le__(self, other):
+        """Сравнить меньше ли количество подписчиков первого канала чем у второго"""
+        return self.subscriber_count < other.subscriber_count
+
+    def __eq__(self, other):
+        """Сравнить равны ли количество подписчиков первого канала и второго"""
+        return self.subscriber_count == other.subscriber_count
+
     @property
     def channel_id(self):
         """ Геттер для свойства channel_id """
@@ -49,9 +82,9 @@ class Channel:
         self.title = channel_data.get('title')
         self.description = channel_data.get('description')
         self.url = f'https://www.youtube.com/channel/{self._channel_id}'
-        self.subscriber_count = statistics_data.get('subscriberCount')
-        self.video_count = statistics_data.get('videoCount')
-        self.total_views = statistics_data.get('viewCount')
+        self.subscriber_count = int(statistics_data.get('subscriberCount'))
+        self.video_count = int(statistics_data.get('videoCount'))
+        self.total_views = int(statistics_data.get('viewCount'))
 
     def to_json(self, file_json):
         """ Сохраняет информацию о канале в файл формата JSON """
