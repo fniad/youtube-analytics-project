@@ -28,6 +28,8 @@ class Channel:
 
     def __add__(self, other):
         """Сложить количество подписчиков двух каналов"""
+        if not isinstance(other, Channel):
+            raise ValueError('Складывать можно только два объекта Channel.')
         return self.subscriber_count + other.subscriber_count
 
     def __sub__(self, other):
