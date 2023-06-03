@@ -41,14 +41,3 @@ class PLVideo(Video):
     def __init__(self, video_id, id_playlist):
         super().__init__(video_id)
         self.id_playlist = id_playlist
-
-    def get_video_id(self):
-        """Вывести список id видео, которые хранятся в плейлисте под id, заданном при инициализации"""
-        playlist_videos = youtube.playlistItems().list(playlistId=self.id_playlist,
-                                                       part='contentDetails',
-                                                       maxResults=50,
-                                                       ).execute()
-
-        # получить все id видеороликов из плейлиста
-        video_ids: list[str] = [video['contentDetails']['videoId'] for video in playlist_videos['items']]
-        return video_ids
